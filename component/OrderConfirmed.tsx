@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+
 import { CheckCircle, Package, Truck, Mail } from 'lucide-react';
 import CartHeader from '../components/CartHeader';
 
@@ -70,13 +71,13 @@ const OrderConfirmed = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              to="/shop"
+              href="/shop"
               className="bg-white text-purple-900 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transform hover:scale-105 transition-all duration-300"
             >
               Continue Shopping
             </Link>
             <Link
-              to="/"
+              href="/"
               className="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-purple-900 transition-all duration-300"
             >
               Back to Home
@@ -93,7 +94,7 @@ const OrderConfirmed = () => {
                 If you have any questions about your order, we're here to help.
               </p>
               <Link
-                to="/contact"
+                href="/contact"
                 className="text-purple-600 hover:text-purple-700 font-medium"
               >
                 Contact Us →

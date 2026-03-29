@@ -3,7 +3,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import Header from '../components/Header';
-import HomePage from '../pages/Home';
+import HomePage from '../component/Home';
 import Footer from '../components/Footer';
 // import { Product } from '../context/CartContext';
 

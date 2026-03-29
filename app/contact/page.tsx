@@ -1,5 +1,5 @@
 import React from 'react'
-import Contact from '@/pages/Contact'
+import Contact from '@/component/Contact'
 
 export default function page() {
   return (
