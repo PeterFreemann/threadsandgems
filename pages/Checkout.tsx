@@ -1,15 +1,15 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link'; // Changed from react-router-dom
-import { useRouter } from 'next/navigation'; // Changed from react-router-dom
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { ArrowLeft, CreditCard, Truck, Shield, CheckCircle } from 'lucide-react';
 import { useCart } from '../context/CartContext';
-import Header from '../components/CartHeader'; // Using main Header instead of CartHeader
+import Header from '../components/CartHeader';
 
 const Checkout = () => {
   const { state, dispatch } = useCart();
-  const router = useRouter(); // Changed from useNavigate to useRouter
+  const router = useRouter();
   const [formData, setFormData] = useState({
     email: '',
     firstName: '',
@@ -35,7 +35,7 @@ const Checkout = () => {
     e.preventDefault();
     setTimeout(() => {
       dispatch({ type: 'CLEAR_CART' });
-      router.push('/order-confirmed'); // Changed from navigate to router.push
+      router.push('/order-confirmed');
     }, 2000);
   };
 
@@ -53,14 +53,14 @@ const Checkout = () => {
                 No Items to Checkout
               </h2>
               <p className="text-stone-600 mb-8 font-light leading-relaxed">
-                Your cart is empty. Discover our exquisite fragrance collection to begin your olfactory journey.
+                Your cart is empty. Browse our Ankara and Nigerian native wear collection to find your perfect piece.
               </p>
             </div>
             <Link
               href="/shop"
               className="inline-flex items-center space-x-3 bg-stone-900 text-white px-10 py-4 rounded-none font-medium hover:bg-stone-800 transition-all duration-300 tracking-wide uppercase"
             >
-              <span>Explore Collection</span>
+              <span>Shop the Collection</span>
             </Link>
           </div>
         </div>
@@ -70,7 +70,6 @@ const Checkout = () => {
 
   return (
     <div className="min-h-screen bg-stone-50">
-      {/* Header */}
       <Header />
       <div className="bg-white border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-10">

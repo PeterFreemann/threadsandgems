@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link'; // Change from react-router-dom to next/link
+import Link from 'next/link';
 import { Minus, Plus, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
 import { useCart } from '../context/CartContext';
-import Header from '../components/CartHeader'; // Import your main Header
+import Header from '../components/CartHeader';
 
 const Cart = () => {
   const { state, dispatch } = useCart();
@@ -37,14 +37,14 @@ const Cart = () => {
                 Your Cart is <em className="font-light italic">Empty</em>
               </h2>
               <p className="text-stone-600 mb-8 font-light leading-relaxed">
-                Discover our exquisite fragrance collection and curate your perfect scent journey.
+                Browse our Ankara and Nigerian native wear collection and find your perfect piece.
               </p>
             </div>
             <Link
               href="/shop"
               className="inline-flex items-center space-x-3 bg-stone-900 text-white px-10 py-4 rounded-none font-medium hover:bg-stone-800 transition-all duration-300 tracking-wide uppercase"
             >
-              <span>Explore Collection</span>
+              <span>Shop the Collection</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -66,7 +66,7 @@ const Cart = () => {
                 Shopping Cart
               </span>
               <h1 className="text-4xl md:text-5xl font-light text-stone-900 tracking-tight">
-                Your Selected <em className="font-light italic">Fragrances</em>
+                Your Selected <em className="font-light italic">Pieces</em>
               </h1>
             </div>
             <Link
@@ -206,10 +206,10 @@ const Cart = () => {
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
           <div className="text-center mb-12">
             <span className="inline-block px-6 py-2 bg-stone-100 text-stone-600 rounded-full text-sm font-medium tracking-wider uppercase mb-4">
-              Complete Your Collection
+              Complete Your Look
             </span>
             <h2 className="text-3xl md:text-4xl font-light text-stone-900 tracking-tight">
-              You Might Also <em className="font-light italic">Enjoy</em>
+              You Might Also <em className="font-light italic">Love</em>
             </h2>
           </div>
           
@@ -218,7 +218,7 @@ const Cart = () => {
               href="/shop"
               className="inline-flex items-center space-x-3 border border-stone-300 text-stone-900 px-10 py-4 rounded-none font-medium hover:bg-stone-50 transition-all duration-300 tracking-wide uppercase"
             >
-              <span>Explore More Fragrances</span>
+              <span>Explore More Pieces</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

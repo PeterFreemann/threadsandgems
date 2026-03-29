@@ -2,7 +2,12 @@
 
 import React, { useEffect } from 'react';
 import { Award, Users, Globe, Heart, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 import Header from '../components/Header';
+import AboutImg from '../images/clothscontact.jpg'
+
+const GOLD = '#C9A84C';
+const DARK = '#2C1810';
 
 const About = () => {
   useEffect(() => {
@@ -28,50 +33,45 @@ const About = () => {
   return (
     <div className="overflow-hidden bg-neutral-50">
       <Header />
-      {/* Hero Section */}
+
+      {/* ── Hero ── */}
       <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-stone-900 via-amber-900 to-stone-800">
-        <div className="absolute inset-0 bg-black/40"></div>
-        <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/1961795/pexels-photo-1961795.jpeg?auto=compress&cs=tinysrgb&w=1920')] bg-cover bg-center opacity-20"></div>
-        
-        {/* Subtle geometric overlay */}
+        <div className="absolute inset-0 bg-black/40" />
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-amber-200 to-transparent rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-stone-200 to-transparent rounded-full blur-3xl"></div>
+          <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-amber-200 to-transparent rounded-full blur-3xl" />
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-stone-200 to-transparent rounded-full blur-3xl" />
         </div>
-        
+
         <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 text-center">
           <div className="animate-fade-in-up">
             <div className="mb-8">
               <span className="inline-block px-6 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-sm font-medium text-white/90 tracking-wider uppercase">
-                British Perfumery
+                Ankara & Nigerian Native Wear
               </span>
             </div>
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-light text-white mb-8 leading-[0.9] tracking-tight">
               Our
-              <span className="block font-extralight italic text-amber-200">
-                Story
-              </span>
+              <span className="block font-extralight italic text-amber-200">Story</span>
             </h1>
             <p className="text-lg md:text-xl text-white/80 mb-12 max-w-3xl mx-auto leading-relaxed font-light">
-              Founded in the heart of London, Delightful Scents represents the pinnacle of British perfumery. 
-              We blend traditional craftsmanship with modern innovation to create fragrances that capture the essence of luxury.
+              Born from a deep love of Nigerian culture and fashion, Threads & Gems brings the
+              vibrancy of Lagos to wardrobes around the world — one stitch at a time.
             </p>
           </div>
         </div>
 
-        {/* Minimal floating elements */}
         <div className="absolute top-1/4 left-10 animate-float">
-          <div className="w-2 h-2 bg-amber-300 rounded-full opacity-60"></div>
+          <div className="w-2 h-2 bg-amber-300 rounded-full opacity-60" />
         </div>
         <div className="absolute top-1/3 right-20 animate-float-delayed">
-          <div className="w-1 h-1 bg-white rounded-full opacity-40"></div>
+          <div className="w-1 h-1 bg-white rounded-full opacity-40" />
         </div>
         <div className="absolute bottom-1/3 left-1/4 animate-float">
-          <div className="w-3 h-3 border border-white/30 rotate-45 opacity-50"></div>
+          <div className="w-3 h-3 border border-white/30 rotate-45 opacity-50" />
         </div>
       </section>
 
-      {/* Mission Section */}
+      {/* ── Mission ── */}
       <section className="py-32 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-20 items-center">
@@ -80,32 +80,32 @@ const About = () => {
                 Our Mission
               </span>
               <h2 className="text-4xl md:text-5xl font-light text-stone-900 mb-8 tracking-tight">
-                Crafting <em className="font-light italic">Memories</em>
+                Celebrating <em className="font-light italic">African Heritage</em>
               </h2>
               <p className="text-lg text-stone-600 mb-8 leading-relaxed font-light">
-                At Delightful Scents, we believe that fragrance is more than just a scent – it's a form of self-expression, 
-                a memory maker, and a confidence booster. Our mission is to create exceptional fragrances that tell 
-                your unique story and enhance your daily experiences.
+                At Threads & Gems, fashion is more than fabric — it's identity, pride, and
+                belonging. Our mission is to bring authentic Ankara prints and Nigerian native
+                wear to every occasion, from everyday elegance to grand owambes.
               </p>
               <p className="text-lg text-stone-600 mb-8 leading-relaxed font-light">
-                Every bottle we create is a testament to our commitment to quality, sustainability, and the artistry 
-                of perfumery. We source the finest ingredients from around the world and work with master perfumers 
-                who have dedicated their lives to this craft.
+                Every piece we curate is a love letter to Nigerian craftsmanship. We work closely
+                with skilled artisans who carry generations of tradition in every cut, every
+                stitch, and every bold print.
               </p>
             </div>
             <div className="relative animate-on-scroll">
-              <div className="absolute inset-0 bg-gradient-to-br from-amber-100 to-stone-100 rounded-none transform rotate-3 opacity-20"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-100 to-stone-100 transform rotate-3 opacity-20" />
               <img
-                src="https://images.pexels.com/photos/1961795/pexels-photo-1961795.jpeg?auto=compress&cs=tinysrgb&w=600"
-                alt="Perfume creation process"
-                className="relative rounded-none shadow-2xl w-full h-[500px] object-cover"
+                src={AboutImg.src}
+                alt="Nigerian fashion craftsmanship"
+                className="relative shadow-2xl w-full h-[500px] object-cover"
               />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Values Section */}
+      {/* ── Values ── */}
       <section className="py-32 bg-stone-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-20 animate-on-scroll">
@@ -116,112 +116,114 @@ const About = () => {
               The Principles That <em className="font-light italic">Guide Us</em>
             </h2>
             <p className="text-lg text-stone-600 max-w-2xl mx-auto font-light leading-relaxed">
-              Every decision we make is rooted in these core values that define who we are and what we stand for.
+              Every decision we make is rooted in these core values — honouring where we come
+              from while dressing the world in African excellence.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
             {[
               {
-                icon: <div className="w-16 h-16 bg-gradient-to-br from-amber-100 to-stone-100 rounded-full flex items-center justify-center"><Award className="w-7 h-7 text-stone-700" /></div>,
-                title: "Excellence",
-                description: "We never compromise on quality, from ingredients to packaging"
+                icon: <Award className="w-7 h-7 text-stone-700" />,
+                title: 'Authenticity',
+                description: 'Genuine Ankara prints and native materials sourced directly from Nigerian markets.',
               },
               {
-                icon: <div className="w-16 h-16 bg-gradient-to-br from-stone-100 to-amber-100 rounded-full flex items-center justify-center"><Users className="w-7 h-7 text-stone-700" /></div>,
-                title: "Community",
-                description: "Building lasting relationships with our customers and partners"
+                icon: <Users className="w-7 h-7 text-stone-700" />,
+                title: 'Community',
+                description: 'Supporting local artisans and building a global family united by culture and style.',
               },
               {
-                icon: <div className="w-16 h-16 bg-gradient-to-br from-amber-100 to-stone-100 rounded-full flex items-center justify-center"><Globe className="w-7 h-7 text-stone-700" /></div>,
-                title: "Sustainability",
-                description: "Committed to ethical sourcing and environmental responsibility"
+                icon: <Globe className="w-7 h-7 text-stone-700" />,
+                title: 'Heritage',
+                description: 'Preserving and celebrating the rich traditions of Nigerian fashion for generations to come.',
               },
               {
-                icon: <div className="w-16 h-16 bg-gradient-to-br from-stone-100 to-amber-100 rounded-full flex items-center justify-center"><Heart className="w-7 h-7 text-stone-700" /></div>,
-                title: "Passion",
-                description: "Every fragrance is created with love and dedication to the craft"
-              }
+                icon: <Heart className="w-7 h-7 text-stone-700" />,
+                title: 'Passion',
+                description: 'Every piece is chosen with love and a deep pride in African culture and identity.',
+              },
             ].map((value, index) => (
               <div
                 key={index}
-                className="animate-on-scroll text-center group"
+                className="animate-on-scroll text-center"
                 style={{ animationDelay: `${index * 200}ms` }}
               >
                 <div className="flex justify-center mb-8">
-                  {value.icon}
+                  <div className="w-16 h-16 bg-gradient-to-br from-amber-100 to-stone-100 rounded-full flex items-center justify-center">
+                    {value.icon}
+                  </div>
                 </div>
-                <h3 className="text-xl font-medium text-stone-900 mb-4 tracking-wide">
-                  {value.title}
-                </h3>
-                <p className="text-stone-600 leading-relaxed font-light">
-                  {value.description}
-                </p>
+                <h3 className="text-xl font-medium text-stone-900 mb-4 tracking-wide">{value.title}</h3>
+                <p className="text-stone-600 leading-relaxed font-light">{value.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Team Section */}
+      {/* ── Story Timeline ── */}
       <section className="py-32 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-20 animate-on-scroll">
             <span className="inline-block px-6 py-2 bg-stone-100 text-stone-600 rounded-full text-sm font-medium tracking-wider uppercase mb-6">
-              Our Team
+              How It Started
             </span>
             <h2 className="text-4xl md:text-5xl font-light text-stone-900 mb-6 tracking-tight">
-              The Passionate <em className="font-light italic">Artisans</em>
+              Rooted in <em className="font-light italic">Lagos</em>
             </h2>
             <p className="text-lg text-stone-600 max-w-2xl mx-auto font-light leading-relaxed">
-              Meet the dedicated individuals who bring their expertise and passion to every bottle we create.
+              Our journey from a shared love of Nigerian fashion to a brand worn across the globe.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-12">
+          <div className="space-y-16">
             {[
               {
-                name: "Isabella Richardson",
-                role: "Master Perfumer",
-                image: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=400",
-                bio: "With over 20 years of experience in Grasse, Isabella brings unparalleled expertise to our creations."
+                year: '2018',
+                title: 'The Spark',
+                description:
+                  'It started with a single Ankara set — made for a family owambe — that drew more compliments than the party itself. The seed was planted.',
               },
               {
-                name: "James Mitchell",
-                role: "Creative Director",
-                image: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=400",
-                bio: "James leads our creative vision, ensuring each fragrance tells a compelling and unique story."
+                year: '2020',
+                title: 'Threads & Gems is Born',
+                description:
+                  'What began as a passion project became a brand. We launched our first curated collection of Ankara and native wear, shipped to customers across the UK and Nigeria.',
               },
               {
-                name: "Sophie Chen",
-                role: "Sustainability Manager",
-                image: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=400",
-                bio: "Sophie ensures our practices align with our commitment to environmental responsibility."
-              }
-            ].map((member, index) => (
+                year: '2022',
+                title: 'Growing the Family',
+                description:
+                  'We partnered with artisans in Lagos and Aba to expand our range — bringing in Aso-Oke, Agbada sets, and hand-embroidered kaftans to our growing community.',
+              },
+              {
+                year: 'Today',
+                title: 'Culture, Worn Proudly',
+                description:
+                  'Threads & Gems dresses people for the moments that matter — from owambes to graduations, everyday wear to global stages. The story is still being written.',
+              },
+            ].map((item, index) => (
               <div
                 key={index}
-                className="animate-on-scroll group bg-stone-50 rounded-none overflow-hidden hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-2"
-                style={{ animationDelay: `${index * 200}ms` }}
+                className="animate-on-scroll flex gap-10 items-start"
+                style={{ animationDelay: `${index * 150}ms` }}
               >
-                <div className="relative overflow-hidden aspect-[4/5]">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
+                <div className="shrink-0 text-right w-20">
+                  <span
+                    className="text-sm font-semibold tracking-widest uppercase"
+                    style={{ color: GOLD }}
+                  >
+                    {item.year}
+                  </span>
                 </div>
-                <div className="p-8">
-                  <h3 className="text-2xl font-light text-stone-900 mb-2 tracking-wide">
-                    {member.name}
-                  </h3>
-                  <p className="text-amber-700 font-medium mb-6 tracking-wide uppercase text-sm">
-                    {member.role}
-                  </p>
-                  <p className="text-stone-600 leading-relaxed font-light">
-                    {member.bio}
-                  </p>
+                <div className="relative pl-10 border-l-2 border-stone-200 pb-4">
+                  <div
+                    className="absolute -left-[9px] top-1 w-4 h-4 rounded-full border-2 border-white"
+                    style={{ backgroundColor: GOLD }}
+                  />
+                  <h3 className="text-xl font-medium text-stone-900 mb-3 tracking-wide">{item.title}</h3>
+                  <p className="text-stone-600 leading-relaxed font-light">{item.description}</p>
                 </div>
               </div>
             ))}
@@ -229,31 +231,38 @@ const About = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* ── CTA ── */}
       <section className="py-32 bg-gradient-to-r from-stone-900 to-amber-900 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-amber-200 to-transparent rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-stone-200 to-transparent rounded-full blur-3xl"></div>
+          <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-amber-200 to-transparent rounded-full blur-3xl" />
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-stone-200 to-transparent rounded-full blur-3xl" />
         </div>
         <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center relative z-10">
           <div className="animate-on-scroll">
             <span className="inline-block px-6 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-sm font-medium text-white/90 tracking-wider uppercase mb-8">
-              Experience Luxury
+              Wear Your Roots
             </span>
             <h2 className="text-4xl md:text-5xl font-light text-white mb-6 tracking-tight">
-              Discover Your <em className="font-light italic">Perfect Fragrance</em>
+              Find Your <em className="font-light italic">Perfect Piece</em>
             </h2>
             <p className="text-lg text-white/70 mb-12 font-light leading-relaxed">
-              Ready to find your signature scent? Explore our curated collection of luxury fragrances.
+              Ready to wear your culture proudly? Browse our full collection of Ankara and
+              Nigerian native wear.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-              <button className="group bg-white text-stone-900 px-10 py-4 rounded-none font-medium text-base hover:bg-stone-100 transition-all duration-500 flex items-center space-x-3 tracking-wide uppercase">
-                <span>Shop Collection</span>
+              <Link
+                href="/shop"
+                className="group bg-white text-stone-900 px-10 py-4 rounded-none font-medium text-base hover:bg-stone-100 transition-all duration-500 flex items-center space-x-3 tracking-wide uppercase"
+              >
+                <span>Shop the Collection</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-              </button>
-              <button className="border border-white/50 text-white px-10 py-4 rounded-none font-medium text-base hover:bg-white hover:text-stone-900 transition-all duration-500 tracking-wide uppercase">
+              </Link>
+              <Link
+                href="/contact"
+                className="border border-white/50 text-white px-10 py-4 rounded-none font-medium text-base hover:bg-white hover:text-stone-900 transition-all duration-500 tracking-wide uppercase"
+              >
                 Contact Us
-              </button>
+              </Link>
             </div>
           </div>
         </div>

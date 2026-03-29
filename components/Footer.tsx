@@ -1,31 +1,47 @@
 import React from 'react';
 import Link from 'next/link';
-
 import { Facebook, Instagram, Twitter, Youtube, Mail } from 'lucide-react';
+
+const BRAND = 'Threads and Gems';
+
+const quickLinks = [
+  { name: 'Home', path: '/' },
+  { name: 'Shop', path: '/shop' },
+  { name: 'About', path: '/about' },
+  { name: 'Contact', path: '/contact' },
+];
+
+const collections = [
+  'Ankara Prints',
+  'Native Agbada',
+  'Aso-Oke Sets',
+  'Kaftan Dresses',
+  'Occasion Wear',
+];
 
 const Footer = () => {
   return (
     <footer className="bg-stone-900 text-white relative overflow-hidden">
-      {/* Subtle background pattern */}
       <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-amber-200 to-transparent rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-stone-200 to-transparent rounded-full blur-3xl"></div>
+        <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-amber-200 to-transparent rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-stone-200 to-transparent rounded-full blur-3xl" />
       </div>
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20 relative z-10">
         <div className="grid md:grid-cols-4 gap-12">
+
           {/* Brand */}
           <div className="col-span-1">
             <Link href="/" className="flex items-center space-x-3 mb-8">
               <div className="w-12 h-12 bg-gradient-to-br from-amber-600 to-stone-600 flex items-center justify-center">
-                <span className="text-white font-light text-xl tracking-wider">D</span>
+                <span className="text-white font-light text-xl tracking-wider">T</span>
               </div>
               <span className="text-2xl font-light tracking-wide text-white">
-                Delighful Scents
+                {BRAND}
               </span>
             </Link>
             <p className="text-stone-300 mb-8 leading-relaxed font-light">
-              Crafting luxury fragrances that tell your unique story. Experience the art of British perfumery.
+              Authentic Ankara and Nigerian native wear, crafted to celebrate your roots and command every room you walk into.
             </p>
             <div className="flex space-x-5">
               <a href="#" className="text-stone-400 hover:text-amber-300 transition-colors duration-300 p-2">
@@ -47,12 +63,7 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-medium mb-8 tracking-wide text-white">Quick Links</h3>
             <ul className="space-y-4">
-              {[
-                { name: 'Home', path: '/' },
-                { name: 'Shop', path: '/shop' },
-                { name: 'About', path: '/about' },
-                { name: 'Contact', path: '/contact' }
-              ].map((link) => (
+              {quickLinks.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.path}
@@ -65,17 +76,11 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Categories */}
+          {/* Collections */}
           <div>
             <h3 className="text-lg font-medium mb-8 tracking-wide text-white">Collections</h3>
             <ul className="space-y-4">
-              {[
-                'Fresh Fragrances',
-                'Floral Essences',
-                'Woody Compositions',
-                'Oriental Luxuries',
-                'Evening Signatures'
-              ].map((category) => (
+              {collections.map((category) => (
                 <li key={category}>
                   <a
                     href="#"
@@ -92,7 +97,7 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-medium mb-8 tracking-wide text-white">Stay Connected</h3>
             <p className="text-stone-300 mb-6 font-light leading-relaxed">
-              Subscribe to our newsletter for exclusive collections and fragrance insights.
+              Subscribe to our newsletter for new arrivals, exclusive collections, and the latest in Nigerian fashion.
             </p>
             <div className="flex flex-col space-y-4">
               <input
@@ -106,12 +111,13 @@ const Footer = () => {
               </button>
             </div>
           </div>
+
         </div>
 
         {/* Divider */}
         <div className="border-t border-stone-800/50 mt-16 pt-10 flex flex-col md:flex-row justify-between items-center">
           <p className="text-stone-400 text-sm font-light tracking-wide">
-            © 2024 Delightful Scents. All rights reserved.
+            Copyright 2024 {BRAND}. All rights reserved.
           </p>
           <div className="flex space-x-8 mt-6 md:mt-0">
             <a href="#" className="text-stone-400 hover:text-white text-sm transition-colors duration-300 font-light tracking-wide">
