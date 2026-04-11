@@ -45,18 +45,14 @@ const About = () => {
 
         <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 text-center">
           <div className="animate-fade-in-up">
-            <div className="mb-8">
-              <span className="inline-block px-6 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-sm font-medium text-white/90 tracking-wider uppercase">
-                Ankara & Nigerian Native Wear
-              </span>
-            </div>
+            
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-light text-white mb-8 leading-[0.9] tracking-tight">
               Our <i className=" font-extralight italic text-amber-200">Story</i> 
               
             </h1>
             <p className="text-lg md:text-xl text-white/80 mb-12 max-w-3xl mx-auto leading-relaxed font-light">
               Born from a deep love of Nigerian culture and fashion, Threads & Gems brings the
-              vibrancy of Lagos to wardrobes around the world — one stitch at a time.
+              vibrancy of Lagos to wardrobes around the world one stitch at a time.
             </p>
           </div>
         </div>
@@ -84,7 +80,7 @@ const About = () => {
                 Celebrating <em className="font-light italic">African Heritage</em>
               </h2>
               <p className="text-lg text-stone-600 mb-8 leading-relaxed font-light">
-                At Threads & Gems, fashion is more than fabric — it's identity, pride, and
+                At Threads & Gems, fashion is more than fabric  it's identity, pride, and
                 belonging. Our mission is to bring authentic Ankara prints and Nigerian native
                 wear to every occasion, from everyday elegance to grand owambes.
               </p>
@@ -117,7 +113,7 @@ const About = () => {
               The Principles That <em className="font-light italic">Guide Us</em>
             </h2>
             <p className="text-lg text-stone-600 max-w-2xl mx-auto font-light leading-relaxed">
-              Every decision we make is rooted in these core values — honouring where we come
+              Every decision we make is rooted in these core values honouring where we come
               from while dressing the world in African excellence.
             </p>
           </div>
@@ -184,7 +180,7 @@ const About = () => {
                 year: '2018',
                 title: 'The Spark',
                 description:
-                  'It started with a single Ankara set — made for a family owambe — that drew more compliments than the party itself. The seed was planted.',
+                  'It started with a single Ankara set made for a family owambe — that drew more compliments than the party itself. The seed was planted.',
               },
               {
                 year: '2020',
@@ -196,13 +192,13 @@ const About = () => {
                 year: '2022',
                 title: 'Growing the Family',
                 description:
-                  'We partnered with artisans in Lagos and Aba to expand our range — bringing in Aso-Oke, Agbada sets, and hand-embroidered kaftans to our growing community.',
+                  'We partnered with artisans in Lagos and Aba to expand our range bringing in Aso-Oke, Agbada sets, and hand-embroidered kaftans to our growing community.',
               },
               {
                 year: 'Today',
                 title: 'Culture, Worn Proudly',
                 description:
-                  'Threads & Gems dresses people for the moments that matter — from owambes to graduations, everyday wear to global stages. The story is still being written.',
+                  'Threads & Gems dresses people for the moments that matter from owambes to graduations, everyday wear to global stages. The story is still being written.',
               },
             ].map((item, index) => (
               <div

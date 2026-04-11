@@ -1,3 +1,4 @@
+// Product Page (app/product/[id]/page.tsx)
 'use client';
 
 import React, { useState } from 'react';
@@ -14,26 +15,35 @@ const GOLD_BG = '#C9A84C18';
 
 // ─── images ───────────────────────────────────────────────────────────────────
 import cloth                  from '../../../images/clothssss.png';
-import cloths                 from '../../../images/clothsssss.png';
-import clothss                from '../../../images/clothssssss.png';
-import clothsss               from '../../../images/clothsssssss.png';
-import clothssss              from '../../../images/clothssssssss.png';
-import clothsssss             from '../../../images/clothsssssssss.png';
-import clothssssss            from '../../../images/clothssssssssss.png';
-import clothsssssss           from '../../../images/clothsssssssssss.png';
-import clothssssssss          from '../../../images/clothssssssssssss.png';
-import clothsssssssss         from '../../../images/clothsssssssssssss.png';
-import clothssssssssss        from '../../../images/clothssssssssssssss.png';
-import clothsssssssssss       from '../../../images/clothsssssssssssssss.png';
-import clothssssssssssss      from '../../../images/clothssssssssssssssss.png';
-import clothsssssssssssss     from '../../../images/clothsssssssssssssssss.png';
-import clothssssssssssssss    from '../../../images/clothssssssssssssssssss.png';
-import clothsssssssssssssss   from '../../../images/clothssssssssssssssssssssssss.png';
-import clothssssssssssssssss  from '../../../images/clothsssssssssssssssssssssssssss.png';
-import clothsssssssssssssssss from '../../../images/clothsssssssssssssssssssssssssssssssss.png';
+import cloths from "../../../images/clothsssss.png";
+import clothss from "../../../images/clothssssss.png";
+import clothsss from "../../../images/clothsssssss.png";
+import clothssss from "../../../images/clothssssssss.png";
+import clothsssss from "../../../images/clothsssssssss.png";
+import clothssssss from "../../../images/clothssssssssss.png";
+import clothsssssss from "../../../images/clothsssssssssss.png";
+import clothssssssss from "../../../images/clothssssssssssss.png";
+import clothsssssssss from "../../../images/clothsssssssssssss.png";
+import clothssssssssss from "../../../images/clothssssssssssssss.png";
+import clothsssssssssss from "../../../images/clothsssssssssssssss.png";
+import clothssssssssssss from "../../../images/clothssssssssssssssss.png";
+import clothsssssssssssss from "../../../images/clothsssssssssssssssss.png";
+import clothssssssssssssss from "../../../images/clothssssssssssssssssss.png";
+import clothsssssssssssssss from "../../../images/clothsssssssssssssssssss.png";
+import clothssssssssssssssss from "../../../images/clothssssssssssssssssssss.png";
+import clothsssssssssssssssss from "../../../images/clothsssssssssssssssssssss.png";
+import clothssssssssssssssssss from "../../../images/clothssssssssssssssssssssss.png";
+import clothsssssssssssssssssss from "../../../images/clothsssssssssssssssssssssss.png";
+import clothssssssssssssssssssss from "../../../images/clothssssssssssssssssssssssss.png";
+import clothsssssssssssssssssssss from "../../../images/clothsssssssssssssssssssssssss.png";
 
-// ─── master product list ───────────────────────────────────────────────────────
-// ids must stay in sync with Shop page
+import clothsssssssssssssssssssssss from "../../../images/clothsssssssssssssssssssssssssss.png";
+import clothssssssssssssssssssssssss from "../../../images/clothssssssssssssssssssssssssssss.png";
+import clothsssssssssssssssssssssssss from "../../../images/clothsssssssssssssssssssssssssssss.png";
+import clothssssssssssssssssssssssssss from "../../../images/clothssssssssssssssssssssssssssssss.png";
+import clothsssssssssssssssssssssssssss from "../../../images/clothsssssssssssssssssssssssssssssss.png";
+
+// ─── master product list (ALL 27 products from shop page) ───────────────────────────────────────────────────────
 const ALL_PRODUCTS = [
   {
     id: 1,
@@ -142,6 +152,60 @@ const ALL_PRODUCTS = [
     price: '£30.00', image: clothsssssssssssssssss.src, rating: 4.8, category: 'native',
     description: 'Nigerian Bridal Kaftan',
     details: 'A bridal-worthy kaftan in ivory and champagne tones, with intricate hand-sewn beading across the bodice. For the bride who wants to honour her roots on the most important day of her life.',
+  },
+  {
+    id: 19,
+    price: '£30.00', image: clothssssssssssssssssss.src, rating: 4.8, category: 'native',
+    description: 'Embroidered Kaftan Dress',
+    details: 'A beautifully embroidered kaftan dress perfect for any occasion.',
+  },
+  {
+    id: 20,
+    price: '£30.00', image: clothsssssssssssssssssss.src, rating: 4.8, category: 'native',
+    description: 'Embroidered Kaftan Dress',
+    details: 'A beautifully embroidered kaftan dress perfect for any occasion.',
+  },
+  {
+    id: 21,
+    price: '£30.00', image: clothssssssssssssssssssss.src, rating: 4.8, category: 'native',
+    description: 'Embroidered Kaftan Dress',
+    details: 'A beautifully embroidered kaftan dress perfect for any occasion.',
+  },
+  {
+    id: 22,
+    price: '£30.00', image: clothsssssssssssssssssssss.src, rating: 4.8, category: 'native',
+    description: 'Embroidered Kaftan Dress',
+    details: 'A beautifully embroidered kaftan dress perfect for any occasion.',
+  },
+  {
+    id: 23,
+    price: '£30.00', image: clothsssssssssssssssssssssss.src, rating: 4.8, category: 'native',
+    description: 'Embroidered Kaftan Dress',
+    details: 'A beautifully embroidered kaftan dress perfect for any occasion.',
+  },
+  {
+    id: 24,
+    price: '£30.00', image: clothssssssssssssssssssssssss.src, rating: 4.8, category: 'native',
+    description: 'Embroidered Kaftan Dress',
+    details: 'A beautifully embroidered kaftan dress perfect for any occasion.',
+  },
+  {
+    id: 25,
+    price: '£30.00', image: clothsssssssssssssssssssssssss.src, rating: 4.8, category: 'native',
+    description: 'Embroidered Kaftan Dress',
+    details: 'A beautifully embroidered kaftan dress perfect for any occasion.',
+  },
+  {
+    id: 26,
+    price: '£30.00', image: clothssssssssssssssssssssssssss.src, rating: 4.8, category: 'native',
+    description: 'Embroidered Kaftan Dress',
+    details: 'A beautifully embroidered kaftan dress perfect for any occasion.',
+  },
+  {
+    id: 27,
+    price: '£30.00', image: clothsssssssssssssssssssssssssss.src, rating: 4.8, category: 'native',
+    description: 'Embroidered Kaftan Dress',
+    details: 'A beautifully embroidered kaftan dress perfect for any occasion.',
   },
 ];
 

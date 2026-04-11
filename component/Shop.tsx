@@ -385,19 +385,15 @@ const Shop = () => {
         </div>
 
         <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 text-center">
-          <div className="mb-8">
-            <span className="inline-block px-6 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-sm font-medium text-white/90 tracking-wider uppercase">
-              Ankara & Nigerian Native Wear
-            </span>
-          </div>
+          
           <h1 className="text-5xl md:text-7xl font-light text-white mb-8 leading-[0.9] tracking-tight">
             The Full
-            <span className="block font-extralight italic text-amber-200">
+            <span className=" font-extralight italic text-amber-200">
               Collection
             </span>
           </h1>
           <p className="text-lg md:text-xl text-white/80 mb-12 max-w-2xl mx-auto leading-relaxed font-light">
-            Browse every piece — from vibrant Ankara prints to elegant Nigerian
+            Browse every piece from vibrant Ankara prints to elegant Nigerian
             native wear. Each style crafted to celebrate your roots and command
             the room.
           </p>

@@ -95,11 +95,7 @@ const Home = () => {
 
         <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 text-center">
           <div className="animate-fade-in-up">
-            <div className="mb-8">
-              <span className="inline-block px-6 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-sm font-medium text-white/90 tracking-wider uppercase">
-                Ankara & Nigerian Native Wear
-              </span>
-            </div>
+           
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-light text-white mb-8 leading-[0.9] tracking-tight">
               Wear Your
               <span className="block font-extralight italic text-amber-200">
@@ -157,7 +153,7 @@ const Home = () => {
               {
                 icon: <div className="w-16 h-16 bg-gradient-to-br from-amber-100 to-stone-100 rounded-full flex items-center justify-center"><Sparkles className="w-7 h-7 text-stone-700" /></div>,
                 title: "Authentic Fabrics",
-                description: "Sourced directly from Nigerian markets — rich, vibrant Ankara prints and traditional native materials of the highest quality."
+                description: "Sourced directly from Nigerian markets rich, vibrant Ankara prints and traditional native materials of the highest quality."
               },
               {
                 icon: <div className="w-16 h-16 bg-gradient-to-br from-stone-100 to-amber-100 rounded-full flex items-center justify-center"><Heart className="w-7 h-7 text-stone-700" /></div>,
@@ -167,7 +163,7 @@ const Home = () => {
               {
                 icon: <div className="w-16 h-16 bg-gradient-to-br from-amber-100 to-stone-100 rounded-full flex items-center justify-center"><Gift className="w-7 h-7 text-stone-700" /></div>,
                 title: "Wear & Celebrate",
-                description: "From owambes to everyday wear — our collections are designed to make you feel rooted, elegant, and unapologetically you."
+                description: "From owambes to everyday wear our collections are designed to make you feel rooted, elegant, and unapologetically you."
               }
             ].map((feature, index) => (
               <div
@@ -201,7 +197,7 @@ const Home = () => {
               Signature <em className="font-light italic">Pieces</em>
             </h2>
             <p className="text-lg text-stone-600 max-w-2xl mx-auto font-light leading-relaxed">
-              Our most loved styles — bold Ankara prints and elegant Nigerian native wear, made to turn heads and honour your roots.
+              Our most loved styles bold Ankara prints and elegant Nigerian native wear, made to turn heads and honour your roots.
             </p>
           </div>
 

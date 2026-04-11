@@ -42,18 +42,14 @@ const Contact = () => {
 
         <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 text-center">
           <div className="animate-fade-in-up">
-            <div className="mb-8">
-              <span className="inline-block px-6 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-sm font-medium text-white/90 tracking-wider uppercase">
-                Ankara & Nigerian Native Wear
-              </span>
-            </div>
+            
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-light text-white mb-8 leading-[0.9] tracking-tight">
               Get in
               <span className=" font-extralight italic text-amber-200">Touch</span>
             </h1>
             <p className="text-lg md:text-xl text-white/80 mb-12 max-w-3xl mx-auto leading-relaxed font-light">
               Questions about an order, custom sizing, or just want to talk fashion?
-              We'd love to hear from you — the Threads & Gems family is always here.
+              We'd love to hear from you the Threads & Gems family is always here.
             </p>
           </div>
         </div>
@@ -216,7 +212,7 @@ const Contact = () => {
                   Custom Orders & Sizing
                 </h4>
                 <p className="text-stone-600 font-light leading-relaxed">
-                  Need a specific size, colour, or occasion piece? We offer custom orders — just
+                  Need a specific size, colour, or occasion piece? We offer custom orders just
                   drop us a message with your measurements and vision and we'll make it happen.
                 </p>
               </div>
