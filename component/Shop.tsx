@@ -34,7 +34,17 @@ import clothssssssssssssssssss from "../images/clothssssssssssssssssssssss.png";
 import clothsssssssssssssssssss from "../images/clothsssssssssssssssssssssss.png";
 import clothssssssssssssssssssss from "../images/clothssssssssssssssssssssssss.png";
 import clothsssssssssssssssssssss from "../images/clothsssssssssssssssssssssssss.png";
-import clothssssssssssssssssssssss from "../images/clothssssssssssssssssssssssssss.png";
+
+import clothsssssssssssssssssssssss from "../images/clothsssssssssssssssssssssssssss.png";
+import clothssssssssssssssssssssssss from "../images/clothssssssssssssssssssssssssssss.png";
+import clothsssssssssssssssssssssssss from "../images/clothsssssssssssssssssssssssssssss.png";
+import clothssssssssssssssssssssssssss from "../images/clothssssssssssssssssssssssssssssss.png";
+import clothsssssssssssssssssssssssssss from "../images/clothsssssssssssssssssssssssssssssss.png";
+
+
+
+
+
 
 
 
@@ -223,6 +233,88 @@ const Shop = () => {
       category: "native",
       description: "Embroidered Kaftan Dress",
     },
+    {
+      id: 19,
+      name: "",
+      price: "£30.00",
+      image: clothsssssssssssssssssss.src,
+      rating: 4.8,
+      category: "native",
+      description: "Embroidered Kaftan Dress",
+    },
+    {
+      id: 20,
+      name: "",
+      price: "£30.00",
+      image: clothssssssssssssssssssss.src,
+      rating: 4.8,
+      category: "native",
+      description: "Embroidered Kaftan Dress",
+    },
+    {
+      id: 21,
+      name: "",
+      price: "£30.00",
+      image: clothsssssssssssssssssssss.src,
+      rating: 4.8,
+      category: "native",
+      description: "Embroidered Kaftan Dress",
+    },
+    {
+      id: 22,
+      name: "",
+      price: "£30.00",
+      image: clothssssssss.src,
+      rating: 4.8,
+      category: "native",
+      description: "Embroidered Kaftan Dress",
+    },
+    {
+      id: 23,
+      name: "",
+      price: "£30.00",
+      image: clothsssssssssssssssssssssss.src,
+      rating: 4.8,
+      category: "native",
+      description: "Embroidered Kaftan Dress",
+    },
+    {
+      id: 24,
+      name: "",
+      price: "£30.00",
+      image: clothssssssssssssssssssssssss.src,
+      rating: 4.8,
+      category: "native",
+      description: "Embroidered Kaftan Dress",
+    },
+    {
+      id: 25,
+      name: "",
+      price: "£30.00",
+      image: clothsssssssssssssssssssssssss.src,
+      rating: 4.8,
+      category: "native",
+      description: "Embroidered Kaftan Dress",
+    },
+    {
+      id: 26,
+      name: "",
+      price: "£30.00",
+      image: clothssssssssssssssssssssssssss.src,
+      rating: 4.8,
+      category: "native",
+      description: "Embroidered Kaftan Dress",
+    },
+    {
+      id: 27,
+      name: "",
+      price: "£30.00",
+      image: clothsssssssssssssssssssssssssss.src,
+      rating: 4.8,
+      category: "native",
+      description: "Embroidered Kaftan Dress",
+    },
+    
     
   ];
 

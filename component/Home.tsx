@@ -9,6 +9,10 @@ import Clothss from '../images/threadsss.png'
 import Hero from '../images/hero.jpg'
 import Header from '../components/Header';
 
+// ─── brand tokens ─────────────────────────────────────────────────────────────
+const GOLD = "#C9A84C";
+const DARK = "#2C1810";
+
 const Home = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   const featuresRef = useRef<HTMLDivElement>(null);
@@ -229,8 +233,16 @@ const Home = () => {
                     <span className="text-2xl font-light text-stone-900 tracking-wide">{product.price}</span>
                     <button
                       onClick={() => handleAddToCart(product)}
-                      className="bg-stone-900 text-white px-6 py-3 rounded-none font-medium text-sm hover:bg-black-100 hover:text-white transition-all duration-300 tracking-wide uppercase"
-                    >
+                      className="text-white px-6 py-3 rounded-none font-medium text-sm transition-all duration-300 tracking-wide uppercase"
+                      style={{ backgroundColor: DARK }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = GOLD;
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = DARK;
+                        }}
+                      >
+                    
                       Add to Cart
                     </button>
                   </div>
@@ -243,7 +255,15 @@ const Home = () => {
             <Link
               href="/shop"
               className="inline-flex items-center space-x-3 bg-stone-900 text-white px-10 py-4 rounded-none font-medium text-base hover:bg-stone-800 transition-all duration-300 tracking-wide uppercase"
+              style={{ backgroundColor: DARK }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = GOLD;
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = DARK;
+                        }}
             >
+              
               <span>View All Pieces</span>
               <ArrowRight className="w-4 h-4" />
             </Link>

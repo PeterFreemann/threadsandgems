@@ -35,7 +35,8 @@ const About = () => {
       <Header />
 
       {/* ── Hero ── */}
-      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-stone-900 via-amber-900 to-stone-800">
+            <section className="relative min-h-[70vh] flex items-center justify-center bg-gradient-to-br from-stone-900 via-amber-900 to-stone-800 mt-10">
+
         <div className="absolute inset-0 bg-black/40" />
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-amber-200 to-transparent rounded-full blur-3xl" />
@@ -50,8 +51,8 @@ const About = () => {
               </span>
             </div>
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-light text-white mb-8 leading-[0.9] tracking-tight">
-              Our
-              <span className="block font-extralight italic text-amber-200">Story</span>
+              Our <i className=" font-extralight italic text-amber-200">Story</i> 
+              
             </h1>
             <p className="text-lg md:text-xl text-white/80 mb-12 max-w-3xl mx-auto leading-relaxed font-light">
               Born from a deep love of Nigerian culture and fashion, Threads & Gems brings the
