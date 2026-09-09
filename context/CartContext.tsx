@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useReducer, ReactNode } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
 
 export interface CartItem {
   id: number;
@@ -21,12 +21,15 @@ type CartAction =
   | { type: 'ADD_TO_CART'; payload: Omit<CartItem, 'quantity'> }
   | { type: 'REMOVE_FROM_CART'; payload: number }
   | { type: 'UPDATE_QUANTITY'; payload: { id: number; quantity: number } }
-  | { type: 'CLEAR_CART' };
+  | { type: 'CLEAR_CART' }
+  | { type: 'LOAD_CART'; payload: CartItem[] };
 
 const CartContext = createContext<{
   state: CartState;
   dispatch: React.Dispatch<CartAction>;
 } | null>(null);
+
+const CART_STORAGE_KEY = 'threadsandgems_cart';
 
 const cartReducer = (state: CartState, action: CartAction): CartState => {
   switch (action.type) {
@@ -88,6 +91,15 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
         total: 0,
         itemCount: 0
       };
+
+    case 'LOAD_CART': {
+      const items = action.payload;
+      return {
+        items,
+        itemCount: items.reduce((sum, item) => sum + item.quantity, 0),
+        total: calculateTotal(items)
+      };
+    }
     
     default:
       return state;
@@ -107,6 +119,32 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     total: 0,
     itemCount: 0
   });
+
+  // On mount, load any saved cart from localStorage.
+  // This runs client-side only, after hydration, to avoid SSR mismatches.
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem(CART_STORAGE_KEY);
+      if (saved) {
+        const items: CartItem[] = JSON.parse(saved);
+        if (Array.isArray(items) && items.length > 0) {
+          dispatch({ type: 'LOAD_CART', payload: items });
+        }
+      }
+    } catch (err) {
+      console.error('Failed to load cart from storage:', err);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Whenever the cart changes, persist it to localStorage.
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(state.items));
+    } catch (err) {
+      console.error('Failed to save cart to storage:', err);
+    }
+  }, [state.items]);
 
   return (
     <CartContext.Provider value={{ state, dispatch }}>
