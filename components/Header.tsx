@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ShoppingBag } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import AuthNav from './AuthNav';
 import Logo from '../images/logo.png';
 import Image from 'next/image';
 
@@ -68,8 +69,10 @@ const Header = () => {
             })}
           </nav>
 
-          {/* Desktop — Cart */}
-          <div className="hidden md:flex items-center">
+          {/* Desktop — Auth + Cart */}
+          <div className="hidden md:flex items-center space-x-4">
+            <AuthNav />
+
             <Link
               href="/cart"
               className="relative p-3 transition-all duration-300 group"
@@ -124,10 +127,15 @@ const Header = () => {
         {/* Mobile Menu */}
         <div
           className={`md:hidden transition-all duration-500 overflow-hidden ${
-            isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+            isMenuOpen ? 'max-h-[32rem] opacity-100' : 'max-h-0 opacity-0'
           }`}
         >
           <div className="py-4 space-y-1 border-t border-stone-100">
+            {/* Mobile — Auth (above the nav links) */}
+            <div className="pb-3 mb-2 border-b border-stone-100 flex items-center gap-3 px-2">
+              <AuthNav />
+            </div>
+
             {navItems.map((item) => {
               const isActive = pathname === item.path;
               return (

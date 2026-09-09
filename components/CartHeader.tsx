@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ShoppingBag, Search, User } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import AuthNav from './AuthNav';
 import Logo from '../images/logo.png'
 import Image from 'next/image'; // Import Next.js Image component
 
@@ -75,12 +76,13 @@ const Header = () => {
           </nav>
 
           {/* Desktop Actions */}
-          <div className="hidden md:flex items-center space-x-2">
+          <div className="hidden md:flex items-center space-x-4">
+            <AuthNav tone={isScrolled ? 'dark' : 'light'} />
             <Link
               href="/cart"
               className={`p-3 transition-all duration-500 relative group ${
-                isScrolled 
-                  ? 'text-stone-600 hover:text-stone-900 hover:bg-stone-100' 
+                isScrolled
+                  ? 'text-stone-600 hover:text-stone-900 hover:bg-stone-100'
                   : 'text-black/80 hover:text-black hover:bg-black/10'
               }`}
             >
@@ -130,6 +132,9 @@ const Header = () => {
           isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
         }`}>
           <div className="py-6 space-y-1 bg-white/95 backdrop-blur-xl shadow-xl mt-2 border border-stone-200/50">
+            <div className="px-6 pb-4 mb-2 border-b border-stone-100 flex items-center gap-3">
+              <AuthNav tone="dark" />
+            </div>
             {navItems.map((item) => (
               <Link
                 key={item.name}

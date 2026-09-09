@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, CreditCard, Truck, Shield, CheckCircle, Loader2 } from 'lucide-react';
@@ -11,6 +11,7 @@ import {
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
+import { useUser } from '@clerk/nextjs';
 import { useCart } from '../context/CartContext';
 import Header from '../components/CartHeader';
 
@@ -209,6 +210,13 @@ const CheckoutForm = ({
               <PaymentElement
                 options={{
                   layout: 'tabs',
+                  defaultValues: {
+                    billingDetails: {
+                      address: {
+                        country: contactData.country || 'GB',
+                      },
+                    },
+                  },
                 }}
               />
 
@@ -316,6 +324,7 @@ const CheckoutForm = ({
 
 const Checkout = () => {
   const { state } = useCart();
+  const { user } = useUser();
 
   const [contactData, setContactData] = useState<ContactShippingData>({
     email: '',
@@ -330,17 +339,42 @@ const Checkout = () => {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
 
+  // Prefill contact details from the signed-in user (only fills blank fields,
+  // so it never clobbers something the shopper has already typed).
+  useEffect(() => {
+    if (!user) return;
+    setContactData((prev) => ({
+      ...prev,
+      email: prev.email || user.primaryEmailAddress?.emailAddress || '',
+      firstName: prev.firstName || user.firstName || '',
+      lastName: prev.lastName || user.lastName || '',
+    }));
+  }, [user]);
+
   const totalInPence = Math.round(state.total * 1.2 * 100);
+
+  // Guards against creating two PaymentIntents for the same amount — React
+  // StrictMode invokes effects twice in dev, which otherwise doubles the request.
+  const requestedAmountRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (state.items.length === 0) return;
+    if (requestedAmountRef.current === totalInPence) return;
+    requestedAmountRef.current = totalInPence;
 
     const createIntent = async () => {
       try {
         const res = await fetch('/api/create-payment-intent', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ amount: totalInPence }),
+          body: JSON.stringify({
+            amount: totalInPence,
+            items: state.items.map((i) => ({
+              name: i.name || i.description,
+              quantity: i.quantity,
+              price: i.price,
+            })),
+          }),
         });
 
         if (!res.ok) {
@@ -350,6 +384,7 @@ const Checkout = () => {
         const data = await res.json();
         setClientSecret(data.clientSecret);
       } catch (err) {
+        requestedAmountRef.current = null; // allow a retry
         setLoadError('We couldn\'t set up payment right now. Please refresh and try again.');
       }
     };

@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 
 import { CheckCircle, Package, Truck, Mail } from 'lucide-react';
-import CartHeader from '../components/CartHeader';
+import CartHeader from '../components/CarHeader';
 
 const OrderConfirmed = () => {
   const orderNumber = `LS${Date.now().toString().slice(-6)}`;
