@@ -1,43 +1,363 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, CreditCard, Truck, Shield, CheckCircle } from 'lucide-react';
+import { ArrowLeft, CreditCard, Truck, Shield, CheckCircle, Loader2 } from 'lucide-react';
+import { loadStripe } from '@stripe/stripe-js';
+import {
+  Elements,
+  PaymentElement,
+  useStripe,
+  useElements,
+} from '@stripe/react-stripe-js';
 import { useCart } from '../context/CartContext';
 import Header from '../components/CartHeader';
 
-const Checkout = () => {
-  const { state, dispatch } = useCart();
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+
+// ---------------------------------------------------------------------------
+// Inner form: rendered only once we have a clientSecret and are inside <Elements>
+// ---------------------------------------------------------------------------
+
+interface ContactShippingData {
+  email: string;
+  firstName: string;
+  lastName: string;
+  address: string;
+  city: string;
+  postalCode: string;
+  country: string;
+}
+
+const CheckoutForm = ({
+  contactData,
+  setContactData,
+}: {
+  contactData: ContactShippingData;
+  setContactData: React.Dispatch<React.SetStateAction<ContactShippingData>>;
+}) => {
+  const stripe = useStripe();
+  const elements = useElements();
   const router = useRouter();
-  const [formData, setFormData] = useState({
+  const { state, dispatch } = useCart();
+
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    setContactData({
+      ...contactData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!stripe || !elements) {
+      // Stripe.js hasn't loaded yet
+      return;
+    }
+
+    setIsProcessing(true);
+    setErrorMessage(null);
+
+    const { error, paymentIntent } = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        return_url: `${window.location.origin}/order-confirmed`,
+        receipt_email: contactData.email,
+        payment_method_data: {
+          billing_details: {
+            name: `${contactData.firstName} ${contactData.lastName}`,
+            email: contactData.email,
+            address: {
+              line1: contactData.address,
+              city: contactData.city,
+              postal_code: contactData.postalCode,
+              country: contactData.country,
+            },
+          },
+        },
+      },
+      redirect: 'if_required',
+    });
+
+    if (error) {
+      setErrorMessage(error.message ?? 'Something went wrong with your payment. Please try again.');
+      setIsProcessing(false);
+      return;
+    }
+
+    if (paymentIntent && paymentIntent.status === 'succeeded') {
+      dispatch({ type: 'CLEAR_CART' });
+      router.push('/order-confirmed');
+    } else {
+      setIsProcessing(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div className="max-w-7xl mx-auto px-4 lg:px-8 py-16">
+        <div className="grid lg:grid-cols-5 gap-8 lg:gap-16">
+          {/* Checkout Form */}
+          <div className="lg:col-span-3 space-y-8 lg:space-y-12">
+            {/* Contact Information */}
+            <div className="bg-white rounded-none shadow-sm border border-stone-200/50 p-6 lg:p-8">
+              <div className="flex items-center space-x-3 mb-6 lg:mb-8">
+                <div className="w-8 h-8 bg-stone-900 text-white rounded-full flex items-center justify-center text-sm font-medium">
+                  1
+                </div>
+                <h2 className="text-xl lg:text-2xl font-light text-stone-900 tracking-wide">Contact Information</h2>
+              </div>
+              <div className="space-y-6">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email address"
+                  value={contactData.email}
+                  onChange={handleInputChange}
+                  className="w-full px-0 py-4 border-0 border-b border-stone-200 bg-transparent focus:border-stone-400 focus:ring-0 transition-colors duration-300 text-stone-900 placeholder-stone-400 font-light"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Shipping Address */}
+            <div className="bg-white rounded-none shadow-sm border border-stone-200/50 p-6 lg:p-8">
+              <div className="flex items-center space-x-3 mb-6 lg:mb-8">
+                <div className="w-8 h-8 bg-stone-900 text-white rounded-full flex items-center justify-center text-sm font-medium">
+                  2
+                </div>
+                <h2 className="text-xl lg:text-2xl font-light text-stone-900 tracking-wide">Shipping Address</h2>
+              </div>
+              <div className="grid md:grid-cols-2 gap-4 lg:gap-6">
+                <input
+                  type="text"
+                  name="firstName"
+                  placeholder="First name"
+                  value={contactData.firstName}
+                  onChange={handleInputChange}
+                  className="px-0 py-4 border-0 border-b border-stone-200 bg-transparent focus:border-stone-400 focus:ring-0 transition-colors duration-300 text-stone-900 placeholder-stone-400 font-light"
+                  required
+                />
+                <input
+                  type="text"
+                  name="lastName"
+                  placeholder="Last name"
+                  value={contactData.lastName}
+                  onChange={handleInputChange}
+                  className="px-0 py-4 border-0 border-b border-stone-200 bg-transparent focus:border-stone-400 focus:ring-0 transition-colors duration-300 text-stone-900 placeholder-stone-400 font-light"
+                  required
+                />
+                <input
+                  type="text"
+                  name="address"
+                  placeholder="Address"
+                  value={contactData.address}
+                  onChange={handleInputChange}
+                  className="md:col-span-2 px-0 py-4 border-0 border-b border-stone-200 bg-transparent focus:border-stone-400 focus:ring-0 transition-colors duration-300 text-stone-900 placeholder-stone-400 font-light"
+                  required
+                />
+                <input
+                  type="text"
+                  name="city"
+                  placeholder="City"
+                  value={contactData.city}
+                  onChange={handleInputChange}
+                  className="px-0 py-4 border-0 border-b border-stone-200 bg-transparent focus:border-stone-400 focus:ring-0 transition-colors duration-300 text-stone-900 placeholder-stone-400 font-light"
+                  required
+                />
+                <input
+                  type="text"
+                  name="postalCode"
+                  placeholder="Postal code"
+                  value={contactData.postalCode}
+                  onChange={handleInputChange}
+                  className="px-0 py-4 border-0 border-b border-stone-200 bg-transparent focus:border-stone-400 focus:ring-0 transition-colors duration-300 text-stone-900 placeholder-stone-400 font-light"
+                  required
+                />
+                <select
+                  name="country"
+                  value={contactData.country}
+                  onChange={handleInputChange}
+                  className="md:col-span-2 px-0 py-4 border-0 border-b border-stone-200 bg-transparent focus:border-stone-400 focus:ring-0 transition-colors duration-300 text-stone-900 font-light"
+                >
+                  <option value="GB">United Kingdom</option>
+                  <option value="IE">Ireland</option>
+                  <option value="FR">France</option>
+                  <option value="DE">Germany</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Payment Information — Stripe Elements */}
+            <div className="bg-white rounded-none shadow-sm border border-stone-200/50 p-6 lg:p-8">
+              <div className="flex items-center space-x-3 mb-6 lg:mb-8">
+                <div className="w-8 h-8 bg-stone-900 text-white rounded-full flex items-center justify-center text-sm font-medium">
+                  3
+                </div>
+                <h2 className="text-xl lg:text-2xl font-light text-stone-900 tracking-wide">Payment Information</h2>
+              </div>
+
+              {/* Stripe's PaymentElement renders card fields (and other methods)
+                  inside a secure iframe — card data never touches our state or server. */}
+              <PaymentElement
+                options={{
+                  layout: 'tabs',
+                }}
+              />
+
+              {errorMessage && (
+                <p className="mt-4 text-sm text-red-600 font-light">{errorMessage}</p>
+              )}
+            </div>
+          </div>
+
+          {/* Order Summary */}
+          <div className="lg:col-span-2 space-y-8">
+            <div className="bg-white rounded-none shadow-sm border border-stone-200/50 p-6 lg:p-8">
+              <h2 className="text-xl lg:text-2xl font-light text-stone-900 mb-6 lg:mb-8 tracking-wide">Order Summary</h2>
+
+              <div className="space-y-6 mb-6 lg:mb-8">
+                {state.items.map((item) => (
+                  <div key={item.id} className="flex items-start space-x-4 pb-6 border-b border-stone-100 last:border-b-0 last:pb-0">
+                    <div className="w-16 h-20 bg-stone-100 rounded-none overflow-hidden flex-shrink-0">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-light text-stone-900 tracking-wide">{item.name}</h3>
+                      <p className="text-stone-500 text-sm font-light">Quantity: {item.quantity}</p>
+                    </div>
+                    <span className="text-stone-900 font-light tracking-wide whitespace-nowrap">
+                      £{(parseFloat(item.price.replace('£', '')) * item.quantity).toFixed(2)}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="space-y-4 border-t border-stone-200 pt-6">
+                <div className="flex justify-between text-stone-600 font-light">
+                  <span>Subtotal</span>
+                  <span>£{state.total.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between text-stone-600 font-light">
+                  <span>Shipping</span>
+                  <span>Complimentary</span>
+                </div>
+                <div className="flex justify-between text-stone-600 font-light">
+                  <span>Tax</span>
+                  <span>£{(state.total * 0.2).toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between text-xl font-light border-t border-stone-200 pt-4">
+                  <span className="text-stone-900">Total</span>
+                  <span className="text-stone-900">£{(state.total * 1.2).toFixed(2)}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Security Features */}
+            <div className="bg-white rounded-none shadow-sm border border-stone-200/50 p-6 lg:p-8">
+              <div className="grid grid-cols-3 gap-4 lg:gap-6 text-center">
+                <div className="space-y-3">
+                  <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-stone-100 to-amber-100 rounded-full flex items-center justify-center mx-auto">
+                    <Shield className="w-4 h-4 lg:w-5 lg:h-5 text-stone-600" />
+                  </div>
+                  <p className="text-xs lg:text-sm text-stone-600 font-light">Secure Payment</p>
+                </div>
+                <div className="space-y-3">
+                  <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-amber-100 to-stone-100 rounded-full flex items-center justify-center mx-auto">
+                    <Truck className="w-4 h-4 lg:w-5 lg:h-5 text-stone-600" />
+                  </div>
+                  <p className="text-xs lg:text-sm text-stone-600 font-light">Free Shipping</p>
+                </div>
+                <div className="space-y-3">
+                  <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-stone-100 to-amber-100 rounded-full flex items-center justify-center mx-auto">
+                    <CheckCircle className="w-4 h-4 lg:w-5 lg:h-5 text-stone-600" />
+                  </div>
+                  <p className="text-xs lg:text-sm text-stone-600 font-light">Satisfaction Guaranteed</p>
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={!stripe || isProcessing}
+              className="w-full flex items-center justify-center gap-2 bg-stone-900 text-white py-4 rounded-none font-medium hover:bg-stone-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 tracking-wide uppercase"
+            >
+              {isProcessing ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Processing...</span>
+                </>
+              ) : (
+                <span>Complete Order</span>
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  );
+};
+
+// ---------------------------------------------------------------------------
+// Outer component: fetches the PaymentIntent client secret, then mounts
+// <Elements> once it's ready. Also owns the header / empty-cart states.
+// ---------------------------------------------------------------------------
+
+const Checkout = () => {
+  const { state } = useCart();
+
+  const [contactData, setContactData] = useState<ContactShippingData>({
     email: '',
     firstName: '',
     lastName: '',
     address: '',
     city: '',
     postalCode: '',
-    country: 'United Kingdom',
-    cardNumber: '',
-    expiryDate: '',
-    cvv: '',
-    nameOnCard: ''
+    country: 'GB',
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setTimeout(() => {
-      dispatch({ type: 'CLEAR_CART' });
-      router.push('/order-confirmed');
-    }, 2000);
-  };
+  const totalInPence = Math.round(state.total * 1.2 * 100);
+
+  useEffect(() => {
+    if (state.items.length === 0) return;
+
+    const createIntent = async () => {
+      try {
+        const res = await fetch('/api/create-payment-intent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount: totalInPence }),
+        });
+
+        if (!res.ok) {
+          throw new Error('Failed to initialize payment');
+        }
+
+        const data = await res.json();
+        setClientSecret(data.clientSecret);
+      } catch (err) {
+        setLoadError('We couldn\'t set up payment right now. Please refresh and try again.');
+      }
+    };
+
+    createIntent();
+    // Only re-create the intent if the total changes meaningfully (e.g. cart edited).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [totalInPence, state.items.length]);
 
   if (state.items.length === 0) {
     return (
@@ -93,231 +413,35 @@ const Checkout = () => {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit}>
-        <div className="max-w-7xl mx-auto px-4 lg:px-8 py-16">
-          <div className="grid lg:grid-cols-5 gap-8 lg:gap-16">
-            {/* Checkout Form */}
-            <div className="lg:col-span-3 space-y-8 lg:space-y-12">
-              {/* Contact Information */}
-              <div className="bg-white rounded-none shadow-sm border border-stone-200/50 p-6 lg:p-8">
-                <div className="flex items-center space-x-3 mb-6 lg:mb-8">
-                  <div className="w-8 h-8 bg-stone-900 text-white rounded-full flex items-center justify-center text-sm font-medium">
-                    1
-                  </div>
-                  <h2 className="text-xl lg:text-2xl font-light text-stone-900 tracking-wide">Contact Information</h2>
-                </div>
-                <div className="space-y-6">
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Email address"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className="w-full px-0 py-4 border-0 border-b border-stone-200 bg-transparent focus:border-stone-400 focus:ring-0 transition-colors duration-300 text-stone-900 placeholder-stone-400 font-light"
-                    required
-                  />
-                </div>
-              </div>
-
-              {/* Shipping Address */}
-              <div className="bg-white rounded-none shadow-sm border border-stone-200/50 p-6 lg:p-8">
-                <div className="flex items-center space-x-3 mb-6 lg:mb-8">
-                  <div className="w-8 h-8 bg-stone-900 text-white rounded-full flex items-center justify-center text-sm font-medium">
-                    2
-                  </div>
-                  <h2 className="text-xl lg:text-2xl font-light text-stone-900 tracking-wide">Shipping Address</h2>
-                </div>
-                <div className="grid md:grid-cols-2 gap-4 lg:gap-6">
-                  <input
-                    type="text"
-                    name="firstName"
-                    placeholder="First name"
-                    value={formData.firstName}
-                    onChange={handleInputChange}
-                    className="px-0 py-4 border-0 border-b border-stone-200 bg-transparent focus:border-stone-400 focus:ring-0 transition-colors duration-300 text-stone-900 placeholder-stone-400 font-light"
-                    required
-                  />
-                  <input
-                    type="text"
-                    name="lastName"
-                    placeholder="Last name"
-                    value={formData.lastName}
-                    onChange={handleInputChange}
-                    className="px-0 py-4 border-0 border-b border-stone-200 bg-transparent focus:border-stone-400 focus:ring-0 transition-colors duration-300 text-stone-900 placeholder-stone-400 font-light"
-                    required
-                  />
-                  <input
-                    type="text"
-                    name="address"
-                    placeholder="Address"
-                    value={formData.address}
-                    onChange={handleInputChange}
-                    className="md:col-span-2 px-0 py-4 border-0 border-b border-stone-200 bg-transparent focus:border-stone-400 focus:ring-0 transition-colors duration-300 text-stone-900 placeholder-stone-400 font-light"
-                    required
-                  />
-                  <input
-                    type="text"
-                    name="city"
-                    placeholder="City"
-                    value={formData.city}
-                    onChange={handleInputChange}
-                    className="px-0 py-4 border-0 border-b border-stone-200 bg-transparent focus:border-stone-400 focus:ring-0 transition-colors duration-300 text-stone-900 placeholder-stone-400 font-light"
-                    required
-                  />
-                  <input
-                    type="text"
-                    name="postalCode"
-                    placeholder="Postal code"
-                    value={formData.postalCode}
-                    onChange={handleInputChange}
-                    className="px-0 py-4 border-0 border-b border-stone-200 bg-transparent focus:border-stone-400 focus:ring-0 transition-colors duration-300 text-stone-900 placeholder-stone-400 font-light"
-                    required
-                  />
-                  <select
-                    name="country"
-                    value={formData.country}
-                    onChange={handleInputChange}
-                    className="md:col-span-2 px-0 py-4 border-0 border-b border-stone-200 bg-transparent focus:border-stone-400 focus:ring-0 transition-colors duration-300 text-stone-900 font-light"
-                  >
-                    <option value="United Kingdom">United Kingdom</option>
-                    <option value="Ireland">Ireland</option>
-                    <option value="France">France</option>
-                    <option value="Germany">Germany</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* Payment Information */}
-              <div className="bg-white rounded-none shadow-sm border border-stone-200/50 p-6 lg:p-8">
-                <div className="flex items-center space-x-3 mb-6 lg:mb-8">
-                  <div className="w-8 h-8 bg-stone-900 text-white rounded-full flex items-center justify-center text-sm font-medium">
-                    3
-                  </div>
-                  <h2 className="text-xl lg:text-2xl font-light text-stone-900 tracking-wide">Payment Information</h2>
-                </div>
-                <div className="space-y-6">
-                  <input
-                    type="text"
-                    name="nameOnCard"
-                    placeholder="Name on card"
-                    value={formData.nameOnCard}
-                    onChange={handleInputChange}
-                    className="w-full px-0 py-4 border-0 border-b border-stone-200 bg-transparent focus:border-stone-400 focus:ring-0 transition-colors duration-300 text-stone-900 placeholder-stone-400 font-light"
-                    required
-                  />
-                  <input
-                    type="text"
-                    name="cardNumber"
-                    placeholder="Card number"
-                    value={formData.cardNumber}
-                    onChange={handleInputChange}
-                    className="w-full px-0 py-4 border-0 border-b border-stone-200 bg-transparent focus:border-stone-400 focus:ring-0 transition-colors duration-300 text-stone-900 placeholder-stone-400 font-light"
-                    required
-                  />
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
-                    <input
-                      type="text"
-                      name="expiryDate"
-                      placeholder="MM/YY"
-                      value={formData.expiryDate}
-                      onChange={handleInputChange}
-                      className="px-0 py-4 border-0 border-b border-stone-200 bg-transparent focus:border-stone-400 focus:ring-0 transition-colors duration-300 text-stone-900 placeholder-stone-400 font-light"
-                      required
-                    />
-                    <input
-                      type="text"
-                      name="cvv"
-                      placeholder="CVV"
-                      value={formData.cvv}
-                      onChange={handleInputChange}
-                      className="px-0 py-4 border-0 border-b border-stone-200 bg-transparent focus:border-stone-400 focus:ring-0 transition-colors duration-300 text-stone-900 placeholder-stone-400 font-light"
-                      required
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Order Summary */}
-            <div className="lg:col-span-2 space-y-8">
-              <div className="bg-white rounded-none shadow-sm border border-stone-200/50 p-6 lg:p-8">
-                <h2 className="text-xl lg:text-2xl font-light text-stone-900 mb-6 lg:mb-8 tracking-wide">Order Summary</h2>
-                
-                <div className="space-y-6 mb-6 lg:mb-8">
-                  {state.items.map((item) => (
-                    <div key={item.id} className="flex items-start space-x-4 pb-6 border-b border-stone-100 last:border-b-0 last:pb-0">
-                      <div className="w-16 h-20 bg-stone-100 rounded-none overflow-hidden flex-shrink-0">
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-light text-stone-900 tracking-wide">{item.name}</h3>
-                        <p className="text-stone-500 text-sm font-light">Quantity: {item.quantity}</p>
-                      </div>
-                      <span className="text-stone-900 font-light tracking-wide whitespace-nowrap">
-                        £{(parseFloat(item.price.replace('£', '')) * item.quantity).toFixed(2)}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="space-y-4 border-t border-stone-200 pt-6">
-                  <div className="flex justify-between text-stone-600 font-light">
-                    <span>Subtotal</span>
-                    <span>£{state.total.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between text-stone-600 font-light">
-                    <span>Shipping</span>
-                    <span>Complimentary</span>
-                  </div>
-                  <div className="flex justify-between text-stone-600 font-light">
-                    <span>Tax</span>
-                    <span>£{(state.total * 0.2).toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between text-xl font-light border-t border-stone-200 pt-4">
-                    <span className="text-stone-900">Total</span>
-                    <span className="text-stone-900">£{(state.total * 1.2).toFixed(2)}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Security Features */}
-              <div className="bg-white rounded-none shadow-sm border border-stone-200/50 p-6 lg:p-8">
-                <div className="grid grid-cols-3 gap-4 lg:gap-6 text-center">
-                  <div className="space-y-3">
-                    <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-stone-100 to-amber-100 rounded-full flex items-center justify-center mx-auto">
-                      <Shield className="w-4 h-4 lg:w-5 lg:h-5 text-stone-600" />
-                    </div>
-                    <p className="text-xs lg:text-sm text-stone-600 font-light">Secure Payment</p>
-                  </div>
-                  <div className="space-y-3">
-                    <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-amber-100 to-stone-100 rounded-full flex items-center justify-center mx-auto">
-                      <Truck className="w-4 h-4 lg:w-5 lg:h-5 text-stone-600" />
-                    </div>
-                    <p className="text-xs lg:text-sm text-stone-600 font-light">Free Shipping</p>
-                  </div>
-                  <div className="space-y-3">
-                    <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-stone-100 to-amber-100 rounded-full flex items-center justify-center mx-auto">
-                      <CheckCircle className="w-4 h-4 lg:w-5 lg:h-5 text-stone-600" />
-                    </div>
-                    <p className="text-xs lg:text-sm text-stone-600 font-light">Satisfaction Guaranteed</p>
-                  </div>
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-stone-900 text-white py-4 rounded-none font-medium hover:bg-stone-800 transition-all duration-300 tracking-wide uppercase"
-              >
-                Complete Order
-              </button>
-            </div>
-          </div>
+      {loadError && (
+        <div className="max-w-7xl mx-auto px-4 lg:px-8 pt-10">
+          <p className="text-red-600 font-light">{loadError}</p>
         </div>
-      </form>
+      )}
+
+      {!clientSecret && !loadError && (
+        <div className="flex items-center justify-center py-24">
+          <Loader2 className="w-6 h-6 animate-spin text-stone-500" />
+        </div>
+      )}
+
+      {clientSecret && (
+        <Elements
+          stripe={stripePromise}
+          options={{
+            clientSecret,
+            appearance: {
+              theme: 'stripe',
+              variables: {
+                colorPrimary: '#1c1917', // stone-900
+                fontFamily: 'inherit',
+              },
+            },
+          }}
+        >
+          <CheckoutForm contactData={contactData} setContactData={setContactData} />
+        </Elements>
+      )}
     </div>
   );
 };
