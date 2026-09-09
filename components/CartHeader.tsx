@@ -8,7 +8,6 @@ import { useCart } from '../context/CartContext';
 import Logo from '../images/logo.png'
 import Image from 'next/image'; // Import Next.js Image component
 
-
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
