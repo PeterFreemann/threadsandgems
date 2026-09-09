@@ -13,6 +13,7 @@ const GOLD    = '#C9A84C'; // diamond / ampersand colour from logo
 const DARK    = '#2C1810'; // wordmark brown from logo
 const GOLD_BG = '#C9A84C18'; // ~10% gold tint for active/hover backgrounds
 
+
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { state } = useCart();
