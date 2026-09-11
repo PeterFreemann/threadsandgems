@@ -77,7 +77,7 @@ const Header = () => {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center space-x-4">
-            <AuthNav tone={isScrolled ? 'dark' : 'light'} />
+            <AuthNav tone="dark" />
             <Link
               href="/cart"
               className={`p-3 transition-all duration-500 relative group ${

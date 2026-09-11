@@ -2,10 +2,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Star, ArrowLeft, ShoppingBag, Minus, Plus, ArrowRight } from 'lucide-react';
+import { Star, ArrowLeft, ShoppingBag, Minus, Plus, ArrowRight, Heart } from 'lucide-react';
+import { useUser } from '@clerk/nextjs';
 import { useCart } from '../../../context/CartContext';
+import { useWishlist } from '../../../context/WishlistContext';
 import Header from '../../../components/Header';
 
 // ─── brand tokens ──────────────────────────────────────────────────────────────
@@ -212,13 +214,41 @@ const ALL_PRODUCTS = [
 // ─── component ────────────────────────────────────────────────────────────────
 export default function ProductPage() {
   const params    = useParams();
+  const router    = useRouter();
   const { dispatch } = useCart();
+  const { isSignedIn } = useUser();
+  const { isInWishlist, dispatch: wishlistDispatch } = useWishlist();
 
   const productId = Number(params?.id);
   const product   = ALL_PRODUCTS.find((p) => p.id === productId);
 
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded]       = useState(false);
+  const wishlisted = product ? isInWishlist(product.id) : false;
+
+  const handleToggleWishlist = () => {
+    if (!product) return;
+
+    if (!isSignedIn) {
+      router.push(`/sign-in?redirect_url=/product/${product.id}`);
+      return;
+    }
+
+    if (wishlisted) {
+      wishlistDispatch({ type: 'REMOVE_FROM_WISHLIST', payload: product.id });
+    } else {
+      wishlistDispatch({
+        type: 'ADD_TO_WISHLIST',
+        payload: {
+          id: product.id,
+          name: product.description,
+          price: product.price,
+          image: product.image,
+          description: product.description,
+        },
+      });
+    }
+  };
 
   const relatedProducts = ALL_PRODUCTS.filter(
     (p) => p.category === product?.category && p.id !== productId,
@@ -393,21 +423,36 @@ export default function ProductPage() {
                 </div>
               </div>
 
-              {/* Add to cart */}
-              <button
-                onClick={handleAddToCart}
-                className="w-full flex items-center justify-center space-x-3 py-5 font-medium text-sm tracking-widest uppercase text-white transition-all duration-300"
-                style={{ backgroundColor: added ? GOLD : DARK }}
-                onMouseEnter={(e) => { if (!added) e.currentTarget.style.backgroundColor = GOLD; }}
-                onMouseLeave={(e) => { if (!added) e.currentTarget.style.backgroundColor = DARK; }}
-              >
-                <ShoppingBag className="w-4 h-4" />
-                <span>
-                  {added
-                    ? 'Added to Cart!'
-                    : `Add ${quantity > 1 ? `${quantity} ` : ''}to Cart`}
-                </span>
-              </button>
+              {/* Add to cart + wishlist */}
+              <div className="flex items-stretch gap-4">
+                <button
+                  onClick={handleAddToCart}
+                  className="flex-1 flex items-center justify-center space-x-3 py-5 font-medium text-sm tracking-widest uppercase text-white transition-all duration-300"
+                  style={{ backgroundColor: added ? GOLD : DARK }}
+                  onMouseEnter={(e) => { if (!added) e.currentTarget.style.backgroundColor = GOLD; }}
+                  onMouseLeave={(e) => { if (!added) e.currentTarget.style.backgroundColor = DARK; }}
+                >
+                  <ShoppingBag className="w-4 h-4" />
+                  <span>
+                    {added
+                      ? 'Added to Cart!'
+                      : `Add ${quantity > 1 ? `${quantity} ` : ''}to Cart`}
+                  </span>
+                </button>
+
+                <button
+                  onClick={handleToggleWishlist}
+                  aria-label={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
+                  aria-pressed={wishlisted}
+                  className="w-16 flex items-center justify-center border transition-colors duration-300"
+                  style={{ borderColor: wishlisted ? GOLD : '#e7e5e4' }}
+                >
+                  <Heart
+                    className="w-5 h-5 transition-colors duration-200"
+                    style={wishlisted ? { color: GOLD, fill: GOLD } : { color: DARK }}
+                  />
+                </button>
+              </div>
 
               {/* Trust badges */}
               <div className="grid grid-cols-3 gap-4 pt-2">

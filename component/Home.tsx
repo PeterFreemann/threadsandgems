@@ -66,7 +66,8 @@ const Home = () => {
     }
   ];
 
-  const handleAddToCart = (product: typeof featuredProducts[0]) => {
+  const handleAddToCart = (e: React.MouseEvent, product: typeof featuredProducts[0]) => {
+    e.preventDefault();
     dispatch({
       type: 'ADD_TO_CART',
       payload: {
@@ -203,9 +204,10 @@ const Home = () => {
 
           <div className="grid md:grid-cols-3 gap-12">
             {featuredProducts.map((product, index) => (
-              <div
+              <Link
                 key={product.id}
-                className="animate-on-scroll group bg-white rounded-none overflow-hidden hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-2"
+                href={`/product/${product.id}`}
+                className="animate-on-scroll group bg-white rounded-none overflow-hidden hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-2 block"
                 style={{ animationDelay: `${index * 200}ms` }}
               >
                 <div className="relative overflow-hidden aspect-[4/5] bg-white">
@@ -228,7 +230,7 @@ const Home = () => {
                   <div className="flex items-center justify-between">
                     <span className="text-2xl font-light text-stone-900 tracking-wide">{product.price}</span>
                     <button
-                      onClick={() => handleAddToCart(product)}
+                      onClick={(e) => handleAddToCart(e, product)}
                       className="text-white px-6 py-3 rounded-none font-medium text-sm transition-all duration-300 tracking-wide uppercase"
                       style={{ backgroundColor: DARK }}
                         onMouseEnter={(e) => {
@@ -238,12 +240,12 @@ const Home = () => {
                           e.currentTarget.style.backgroundColor = DARK;
                         }}
                       >
-                    
+
                       Add to Cart
                     </button>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 

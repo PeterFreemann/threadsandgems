@@ -2,12 +2,24 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Minus, Plus, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
+import { useUser } from '@clerk/nextjs';
 import { useCart } from '../context/CartContext';
 import Header from '../components/CartHeader';
 
 const Cart = () => {
   const { state, dispatch } = useCart();
+  const { isSignedIn } = useUser();
+  const router = useRouter();
+
+  const handleCheckout = () => {
+    if (isSignedIn) {
+      router.push('/checkout');
+    } else {
+      router.push('/sign-in?redirect_url=/checkout');
+    }
+  };
 
   const updateQuantity = (id: number, quantity: number) => {
     dispatch({
@@ -23,7 +35,34 @@ const Cart = () => {
     });
   };
 
-  if (state.items.length === 0) {
+  const isEmpty = state.items.length === 0;
+
+  const recommendations = (
+    <div className="bg-white border-t border-stone-200">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+        <div className="text-center mb-12">
+          <span className="inline-block px-6 py-2 bg-stone-100 text-stone-600 rounded-full text-sm font-medium tracking-wider uppercase mb-4">
+            Complete Your Look
+          </span>
+          <h2 className="text-3xl md:text-4xl font-light text-stone-900 tracking-tight">
+            You Might Also <em className="font-light italic">Love</em>
+          </h2>
+        </div>
+
+        <div className="text-center">
+          <Link
+            href="/shop"
+            className="inline-flex items-center space-x-3 border border-stone-300 text-stone-900 px-10 py-4 rounded-none font-medium hover:bg-stone-50 transition-all duration-300 tracking-wide uppercase"
+          >
+            <span>Explore More Pieces</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+
+  if (isEmpty) {
     return (
       <div className="min-h-screen bg-stone-50">
         <Header />
@@ -49,6 +88,7 @@ const Cart = () => {
             </Link>
           </div>
         </div>
+        {recommendations}
       </div>
     );
   }
@@ -56,7 +96,7 @@ const Cart = () => {
   return (
     <div className="min-h-screen bg-stone-50">
       <Header />
-      
+
       {/* Header */}
       <div className="bg-white border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
@@ -98,7 +138,7 @@ const Cart = () => {
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  
+
                   <div className="flex-1 min-w-0 w-full">
                     <div className="flex flex-col sm:flex-row justify-between items-start mb-4">
                       <div className="mb-4 sm:mb-0">
@@ -113,7 +153,7 @@ const Cart = () => {
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
-                    
+
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6 border-t border-stone-100">
                       {/* Quantity Section */}
                       <div className="flex items-center space-x-4">
@@ -154,7 +194,7 @@ const Cart = () => {
           <div className="lg:col-span-1">
             <div className="bg-white rounded-none shadow-sm border border-stone-200/50 p-6 md:p-8 sticky top-8">
               <h2 className="text-2xl font-light text-stone-900 mb-8 tracking-wide">Order Summary</h2>
-              
+
               <div className="space-y-6 mb-8">
                 <div className="flex justify-between items-center">
                   <span className="text-stone-600 font-light">Subtotal ({state.itemCount} {state.itemCount === 1 ? 'item' : 'items'})</span>
@@ -178,13 +218,13 @@ const Cart = () => {
                 </div>
               </div>
 
-              <Link
-                href="/checkout"
+              <button
+                onClick={handleCheckout}
                 className="w-full bg-stone-900 text-white py-4 rounded-none font-medium hover:bg-stone-800 transition-all duration-300 flex items-center justify-center space-x-3 tracking-wide uppercase"
               >
                 <span>Proceed to Checkout</span>
                 <ArrowRight className="w-4 h-4" />
-              </Link>
+              </button>
 
               <div className="mt-8 pt-6 border-t border-stone-100">
                 <div className="text-center space-y-2">
@@ -201,29 +241,7 @@ const Cart = () => {
         </div>
       </div>
 
-      {/* Recommendations Section */}
-      <div className="bg-white border-t border-stone-200">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
-          <div className="text-center mb-12">
-            <span className="inline-block px-6 py-2 bg-stone-100 text-stone-600 rounded-full text-sm font-medium tracking-wider uppercase mb-4">
-              Complete Your Look
-            </span>
-            <h2 className="text-3xl md:text-4xl font-light text-stone-900 tracking-tight">
-              You Might Also <em className="font-light italic">Love</em>
-            </h2>
-          </div>
-          
-          <div className="text-center">
-            <Link
-              href="/shop"
-              className="inline-flex items-center space-x-3 border border-stone-300 text-stone-900 px-10 py-4 rounded-none font-medium hover:bg-stone-50 transition-all duration-300 tracking-wide uppercase"
-            >
-              <span>Explore More Pieces</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </div>
+      {recommendations}
     </div>
   );
 };

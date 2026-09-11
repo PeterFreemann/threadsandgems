@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ChevronDown, Receipt, Settings, LogOut } from 'lucide-react';
+import { ChevronDown, Receipt, Heart, Settings, LogOut } from 'lucide-react';
 import { useClerk, useUser } from '@clerk/nextjs';
 
 // brand tokens (shared with the headers)
@@ -89,7 +89,8 @@ export default function AuthNav({ tone = 'dark' }: { tone?: 'dark' | 'light' }) 
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="menu"
         aria-expanded={open}
-        className="flex items-center gap-2 transition-opacity hover:opacity-80"
+        aria-label={name}
+        className="flex items-center gap-1 transition-opacity hover:opacity-80"
         style={{ color: textColor }}
       >
         <span
@@ -103,7 +104,6 @@ export default function AuthNav({ tone = 'dark' }: { tone?: 'dark' | 'light' }) 
             initials
           )}
         </span>
-        <span className="text-sm font-medium tracking-wide max-w-[10rem] truncate">{name}</span>
         <ChevronDown
           className={`w-4 h-4 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
         />
@@ -131,6 +131,16 @@ export default function AuthNav({ tone = 'dark' }: { tone?: 'dark' | 'light' }) 
           >
             <Receipt className="w-4 h-4 text-stone-400" />
             My Orders
+          </Link>
+
+          <Link
+            href="/account/wishlist"
+            role="menuitem"
+            onClick={() => setOpen(false)}
+            className="flex items-center gap-3 px-4 py-2.5 text-sm text-stone-700 hover:bg-stone-50"
+          >
+            <Heart className="w-4 h-4 text-stone-400" />
+            Wishlist
           </Link>
 
           <button
