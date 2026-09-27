@@ -21,7 +21,7 @@ const OrderConfirmed = () => {
             Order Confirmed!
           </h1>
           <p className="text-xl text-gray-600 mb-2">
-            Thank you for your purchase from Delightful Scents
+            Thank you for your purchase from Threads and Gems. Your order has been successfully placed.
           </p>
           <p className="text-lg text-gray-500">
             Order #{orderNumber}
@@ -65,7 +65,7 @@ const OrderConfirmed = () => {
         </div>
 
         <div className="bg-gradient-to-r from-purple-900 to-pink-900 rounded-2xl p-8 text-white text-center mb-8">
-          <h2 className="text-3xl font-bold mb-4">Thank You for Choosing Delightful Scents</h2>
+          <h2 className="text-3xl font-bold mb-4">Thank You for Choosing Threads and Gems</h2>
           <p className="text-xl text-gray-200 mb-6">
             Your support means the world to us. We hope you love your new fragrances!
           </p>
